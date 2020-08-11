@@ -118,10 +118,10 @@ public class MapInteractionHandler : MonoBehaviour, IMixedRealityPointerHandler,
     public void OnPointerDown(MixedRealityPointerEventData eventData)
     {
         if (_isFocused &&
-            CoreServices.InputSystem.FocusProvider.TryGetFocusDetails(eventData.Pointer, out FocusDetails focusDetails))
+            CoreServices.InputSystem.FocusProvider.TryGetFocusDetails(eventData.Pointer, out var focusDetails))
         {
             _pointer = eventData.Pointer;
-            _targetPointInLocalSpace = focusDetails.PointLocalSpace;
+            _targetPointInLocalSpace = transform.InverseTransformPoint(focusDetails.Point);
             _targetPointInMercator =
                 _mapRenderer.TransformLocalPointToMercatorWithAltitude(
                     _targetPointInLocalSpace,
